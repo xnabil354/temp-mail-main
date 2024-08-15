@@ -108,7 +108,7 @@ const TempMailGenerator: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-purple-400 via-pink-500 to-red-500">
+    <div className="min-h-screen w-full bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 flex items-center justify-center">
       <style jsx>{`
         @keyframes gradient {
           0% { background-position: 0% 50%; }
@@ -144,7 +144,7 @@ const TempMailGenerator: React.FC = () => {
           100% { transform: translatey(0px); }
         }
       `}</style>
-      <div className="container mx-auto p-4 sm:p-8 max-w-3xl">
+      <div className="w-full p-4 sm:p-8 max-w-full">
         <div className="glass-effect floating p-4 sm:p-8 rounded-lg">
           <h1 className="text-3xl sm:text-4xl font-bold mb-6 sm:mb-8 text-center text-white">Temporary Mail</h1>
           <div className="bg-white bg-opacity-10 shadow-lg rounded-lg p-4 sm:p-8">
