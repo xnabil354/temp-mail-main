@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { Copy, RefreshCw } from "lucide-react";
+import { Copy, RefreshCw, RotateCw } from "lucide-react";
 
 const emailServices = [
   { id: "domain", label: "Domain" },
@@ -54,6 +54,7 @@ const TempMailGenerator: React.FC = () => {
       const data = await response.json();
       if (data.email && data.email.length > 0) {
         setGeneratedEmail(data.email[0]);
+        setMessages([]); // Clear previous messages when new email is generated
       } else {
         throw new Error("No email generated");
       }
@@ -102,8 +103,13 @@ const TempMailGenerator: React.FC = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const changeEmail = () => {
+    generateEmail();
+  };
+
   return (
     <div className="container mx-auto p-4 max-w-2xl">
+      <h1 className="text-3xl font-bold mb-6 text-center">Temporary Mail</h1>
       <div className="bg-white shadow-md rounded-lg p-6">
         <h2 className="text-2xl font-semibold mb-4">Temporary Email Generator</h2>
         <div className="flex flex-wrap gap-4 mb-4">
@@ -147,56 +153,72 @@ const TempMailGenerator: React.FC = () => {
             {copied && (
               <p className="text-green-500 text-sm mt-1">Copied to clipboard!</p>
             )}
-            <button
-              onClick={handleManualRefresh}
-              disabled={isRefreshing}
-              className={`flex items-center justify-center w-full bg-green-500 text-white px-4 py-2 rounded-md mt-4 transition duration-300 ease-in-out hover:bg-green-600 ${
-                isRefreshing ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-              {isRefreshing ? (
-                <>
-                  <RefreshCw className="animate-spin mr-2" size={20} />
-                  Refreshing...
-                </>
-              ) : (
-                <>
-                  <RefreshCw className="mr-2" size={20} />
-                  Refresh Inbox
-                </>
-              )}
-            </button>
+            <div className="flex gap-2 mt-4">
+              <button
+                onClick={handleManualRefresh}
+                disabled={isRefreshing}
+                className={`flex-1 flex items-center justify-center bg-green-500 text-white px-4 py-2 rounded-md transition duration-300 ease-in-out hover:bg-green-600 ${
+                  isRefreshing ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
+                {isRefreshing ? (
+                  <>
+                    <RefreshCw className="animate-spin mr-2" size={20} />
+                    Refreshing...
+                  </>
+                ) : (
+                  <>
+                    <RefreshCw className="mr-2" size={20} />
+                    Refresh Inbox
+                  </>
+                )}
+              </button>
+              <button
+                onClick={changeEmail}
+                disabled={loading}
+                className={`flex-1 flex items-center justify-center bg-yellow-500 text-white px-4 py-2 rounded-md transition duration-300 ease-in-out hover:bg-yellow-600 ${
+                  loading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
+                <RotateCw className="mr-2" size={20} />
+                Change Email
+              </button>
+            </div>
             <div className="mt-6">
               <h3 className="text-xl font-semibold mb-2">Inbox:</h3>
-              <ul className="divide-y divide-gray-200">
-                {messages.map((message) => (
-                  <li key={message.messageID} className="py-4">
-                    <a
-                      href={`https://www.emailnator.com/inbox/${generatedEmail}/${message.messageID}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block hover:bg-gray-100 p-3 rounded-md transition duration-300 ease-in-out"
-                    >
-                      <div className="flex items-center space-x-4">
-                        <div className="flex-shrink-0">
-                          <span className="inline-block h-10 w-10 rounded-full bg-gray-200"></span>
+              {messages.length === 0 ? (
+                <p className="text-gray-500">No messages yet.</p>
+              ) : (
+                <ul className="divide-y divide-gray-200">
+                  {messages.map((message) => (
+                    <li key={message.messageID} className="py-4">
+                      <a
+                        href={`https://www.emailnator.com/inbox/${generatedEmail}/${message.messageID}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block hover:bg-gray-100 p-3 rounded-md transition duration-300 ease-in-out"
+                      >
+                        <div className="flex items-center space-x-4">
+                          <div className="flex-shrink-0">
+                            <span className="inline-block h-10 w-10 rounded-full bg-gray-200"></span>
+                          </div>
+                          <div className="flex-grow min-w-0">
+                            <p className="text-sm font-medium text-gray-900 truncate">
+                              {message.from}
+                            </p>
+                            <p className="text-sm text-gray-500 truncate">
+                              {message.subject}
+                            </p>
+                          </div>
+                          <div className="text-sm font-semibold text-gray-900">
+                            {message.time}
+                          </div>
                         </div>
-                        <div className="flex-grow min-w-0">
-                          <p className="text-sm font-medium text-gray-900 truncate">
-                            {message.from}
-                          </p>
-                          <p className="text-sm text-gray-500 truncate">
-                            {message.subject}
-                          </p>
-                        </div>
-                        <div className="text-sm font-semibold text-gray-900">
-                          {message.time}
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                ))}
-              </ul>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         )}
