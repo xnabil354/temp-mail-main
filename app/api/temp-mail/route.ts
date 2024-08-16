@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
     }
 
     const formattedCookies = cookies.split(', ').join('; '); 
+    console.log("Formatted cookies:", formattedCookies);
 
     const response = await fetch(`${EMAILNATOR_API}/generate-email`, {
       method: "POST",
@@ -100,6 +101,7 @@ export async function GET(req: NextRequest) {
     }
 
     const formattedCookies = cookies.split(', ').join('; ');
+    console.log("Formatted cookies:", formattedCookies);
 
     const response = await fetch(`${EMAILNATOR_API}/message-list`, {
       method: "POST",

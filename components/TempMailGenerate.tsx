@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { Copy, RefreshCw, RotateCw } from "lucide-react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const emailServices = [
   { id: "domain", label: "Domain" },
@@ -25,6 +27,22 @@ const TempMailGenerator: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
+
+  useEffect(() => {
+    toast.info(
+      'Untuk penggunaan Email Khusus yang hanya Support Gmail bisa menggunakan ".gmail service". Kalau Website yang kalian Registrasi Support All Domain, bisa memakai "Domain Service" dan juga "Google Mail".',
+      {
+        position: "top-right",
+        autoClose: 15000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      }
+    );
+  }, []);
 
   const handleServiceToggle = (service: string) => {
     setSelectedServices((prev) =>
@@ -109,6 +127,7 @@ const TempMailGenerator: React.FC = () => {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 flex items-center justify-center">
+      <ToastContainer />
       <style jsx>{`
         @keyframes gradient {
           0% { background-position: 0% 50%; }
