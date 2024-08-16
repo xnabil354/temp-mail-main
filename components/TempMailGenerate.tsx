@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useCallback } from "react";
-import { Copy, RefreshCw, RotateCw } from "lucide-react";
+import { Copy, RefreshCw, RotateCw, Mail, XCircle } from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -30,16 +30,28 @@ const TempMailGenerator: React.FC = () => {
 
   useEffect(() => {
     toast.info(
-      'Untuk penggunaan Email Khusus yang hanya Support Gmail bisa menggunakan ".gmail service". Kalau Website yang kalian Registrasi Support All Domain, bisa memakai "Domain Service" dan juga "Google Mail".',
+      <>
+        <Mail className="inline-block mr-2" size={24} /> 
+        <span className="text-white">Gunakan layanan sesuai kebutuhan: </span>
+        <br />
+        <span className="text-blue-300">&quot;.gmail service&quot;</span> untuk Gmail. 
+        <br />
+        <span className="text-blue-300">&quot;Domain Service&quot;</span> dan <span className="text-blue-300">&quot;Google Mail&quot;</span> untuk semua domain.
+        <XCircle
+          className="inline-block ml-2 cursor-pointer hover:text-red-400"
+          size={24}
+          onClick={() => toast.dismiss()}
+        />
+      </>,
       {
         position: "top-right",
         autoClose: 15000,
-        hideProgressBar: false,
-        closeOnClick: true,
+        hideProgressBar: true,
+        closeOnClick: false,
         pauseOnHover: true,
         draggable: true,
-        progress: undefined,
-        theme: "colored",
+        theme: "dark",
+        className: "neon-toast glass-effect",
       }
     );
   }, []);
@@ -161,6 +173,10 @@ const TempMailGenerator: React.FC = () => {
           0% { transform: translatey(0px); }
           50% { transform: translatey(-20px); }
           100% { transform: translatey(0px); }
+        }
+        .neon-toast {
+          border-radius: 10px;
+          box-shadow: 0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.7);
         }
       `}</style>
       <div className="w-full p-4 sm:p-8 max-w-full">
