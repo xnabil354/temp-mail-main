@@ -106,7 +106,7 @@ const TempMailGenerator: React.FC = () => {
       setMessages(data.messageData || []);
     } catch (error) {
       console.error("Error fetching messages:", error);
-      setError("Whoops... Gagal Mengambil pesan terbaru!");
+      setError("Whoops... Gagal mengambil pesan terbaru, Cobalah untuk Generate Email Ulang!");
     }
   }, [generatedEmail]);
 
